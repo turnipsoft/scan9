@@ -1,0 +1,46 @@
+apply plugin: 'groovy'
+apply plugin: 'jacoco'
+apply plugin: "project-report"
+apply plugin: 'application'
+
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+group = 'scan9'
+
+
+jacoco {
+    toolVersion = "0.6.4.201312101107"
+}
+
+repositories {
+    mavenCentral()
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    additionalSourceDirs = files(sourceSets.main.allGroovy.srcDirs)
+}
+
+
+String slf4jVersion = '1.7.5'
+String logbackVersion = '1.0.13'
+
+dependencies {
+    testCompile ('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+
+    compile 'org.codehaus.groovy:groovy:2.4.3'
+    compile 'org.codehaus.groovy:groovy-json:2.4.3'
+
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+}
+
+mainClassName = "scan9.Scan9"
+applicationDefaultJvmArgs = ['-Dfile.encoding=UTF-8', '-Dsun.jnu.encoding=UTF-8', '-Xms1G', '-Xmx2G', '-Dcom.sun.management.jmxremote']
